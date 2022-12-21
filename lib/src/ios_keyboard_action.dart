@@ -10,7 +10,8 @@ class IOSKeyboardAction extends StatefulWidget {
   final FocusActionType focusActionType;
   final Widget? child;
   final VoidCallback? onTap;
-  final String? label;
+  final Widget? doneButton;
+  final ButtonStyle? doneButtonStyle;
 
   ///Creates a IOSKeyboardAction that can be used to your text field to add a keyboard action above the system keyboard.
   ///
@@ -20,16 +21,17 @@ class IOSKeyboardAction extends StatefulWidget {
   ///The [focusNode] is the focus node that will be used to determine if the keyboard is visible.
   ///The [child] is the child widget that will be wrapped with the IOSKeyboardAction.
   ///The [onTap] is the callback that will be called when the user taps the action button.
-  const IOSKeyboardAction(
-      {Key? key,
-      required this.focusNode,
-      this.backgroundColor = const Color(0xffeeeeed),
-      this.child,
-      this.focusActionType = FocusActionType.done,
-      this.onTap,
-      this.textColor = Colors.black,
-      this.label})
-      : super(key: key);
+  const IOSKeyboardAction({
+    Key? key,
+    required this.focusNode,
+    this.backgroundColor = const Color(0xffeeeeed),
+    this.child,
+    this.focusActionType = FocusActionType.done,
+    this.onTap,
+    this.textColor = Colors.black,
+    this.doneButton,
+    this.doneButtonStyle,
+  }) : super(key: key);
 
   @override
   _IOSKeyboardActionState createState() => _IOSKeyboardActionState();
@@ -41,24 +43,18 @@ class _IOSKeyboardActionState extends State<IOSKeyboardAction> {
   OverlayEntry _createOverlayEntry() {
     return OverlayEntry(
       builder: (context) => Align(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.bottomRight,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              height: 50,
-              width: double.infinity,
-              color: widget.backgroundColor,
+              alignment: Alignment.bottomRight,
+              padding: const EdgeInsets.only(right: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: VerticalDivider(
-                      color: Colors.black,
-                    ),
-                  ),
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       Controller.getFunctionAction(
                           action: widget.focusActionType,
@@ -67,11 +63,8 @@ class _IOSKeyboardActionState extends State<IOSKeyboardAction> {
                         widget.onTap!();
                       }
                     },
-                    child: Text(
-                      widget.label ??
-                          Controller.getActionTypeLabel(widget.focusActionType),
-                      style: TextStyle(color: widget.textColor),
-                    ),
+                    child: widget.doneButton,
+                    style: widget.doneButtonStyle,
                   )
                 ],
               ),

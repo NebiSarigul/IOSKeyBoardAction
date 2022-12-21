@@ -44,46 +44,30 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              IOSKeyboardAction(
-                label: 'Next field',
-                focusNode: nextFieldFocus,
-                focusActionType: FocusActionType.next,
-                child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Next',
-                  ),
-                  focusNode: nextFieldFocus,
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              IOSKeyboardAction(
-                label: 'Previous field',
-                focusNode: previousFieldFocus,
-                focusActionType: FocusActionType.previous,
-                child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Previous',
-                  ),
-                  focusNode: previousFieldFocus,
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              IOSKeyboardAction(
-                focusNode: doneFieldFocus,
-                focusActionType: FocusActionType.done,
-                onTap: () => _showModal(context),
-                child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Done',
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IOSKeyboardAction(
                   focusNode: doneFieldFocus,
-                  keyboardType: TextInputType.number,
+                  focusActionType: FocusActionType.done,
+                  doneButtonStyle: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                  doneButton: const Icon(
+                    Icons.keyboard_hide_rounded,
+                    color: Colors.black,
+                  ),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Done',
+                    ),
+                    focusNode: doneFieldFocus,
+                    keyboardType: TextInputType.number,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -97,15 +81,4 @@ class _MyHomePageState extends State<MyHomePage> {
     previousFieldFocus.dispose();
     super.dispose();
   }
-
-  _showModal(BuildContext context) => showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return const SizedBox(
-          height: 200,
-          child: Center(
-            child: Text('Done pressed'),
-          ),
-        );
-      });
 }
