@@ -82,15 +82,32 @@ class _IOSKeyboardActionState extends State<IOSKeyboardAction> {
   void initState() {
     widget.focusNode.addListener(() {
       if (Platform.isIOS) {
-        if (widget.focusNode.hasFocus == true) {
-          _overlayEntry = _createOverlayEntry();
-          Overlay.of(context)!.insert(_overlayEntry!);
+        if (widget.focusNode.hasFocus == true && mounted) {
+          if (context.mounted && Overlay.of(context).mounted) {
+            _overlayEntry = _createOverlayEntry();
+            Overlay.of(context).insert(_overlayEntry!);
+          }
         } else {
-          _overlayEntry!.remove();
+          if (_overlayEntry?.mounted != null && _overlayEntry!.mounted) {
+            _overlayEntry?.remove();
+          }
         }
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (widget.focusNode.context?.mounted != null &&
+        widget.focusNode.context!.mounted) {
+      widget.focusNode.removeListener(() {});
+    }
+
+    if (_overlayEntry?.mounted != null && _overlayEntry!.mounted) {
+      _overlayEntry?.remove();
+    }
+    super.dispose();
   }
 
   @override

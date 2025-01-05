@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   focusNode: doneFieldFocus,
                   focusActionType: FocusActionType.done,
                   doneButtonStyle: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
                   doneButton: const Icon(
                     Icons.keyboard_hide_rounded,
